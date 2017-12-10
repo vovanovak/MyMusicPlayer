@@ -1,0 +1,217 @@
+﻿<Window x:Class="MyMusicPlayer.PlayListWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="PlayListWindow" Height="477" Width="445" WindowStyle="None" ResizeMode="NoResize">
+    <Window.Resources>
+        <BitmapImage x:Key="MinusPlayListButton" CreateOptions="IgnoreImageCache" CacheOption="OnLoad" UriSource="Icons\minusWithCircle.png"/>
+        <ControlTemplate x:Key="ListViewItemTemplate" x:Name="ListViewItemTemplate" TargetType="ListViewItem">
+            <Grid Name="grid">
+                <Label Content="123"/>
+            </Grid>
+        </ControlTemplate>
+        <BitmapImage x:Key="SearchButton" CreateOptions="IgnoreImageCache" CacheOption="OnLoad" UriSource="Icons\search.png"/>
+        <BitmapImage x:Key="prevImgPlayListsNew" CreateOptions="IgnoreImageCache" CacheOption="OnLoad" UriSource="Icons\prev.png"/>
+    </Window.Resources>
+    <Grid Name="mainGrid" Background="Black">
+        <Label Content="playlist" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Calibri Light" FontSize="40" Foreground="White"/>
+        <Image HorizontalAlignment="Left" Height="44" Margin="148,8,0,0" VerticalAlignment="Top" Width="44" Source="Icons/add.png" Opacity="0.2" MouseDown="Add_Button_Click">
+            <Image.Triggers>
+                <EventTrigger RoutedEvent="Image.MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Width" Duration="0:0:0.2" From="44" To="47">
+
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetProperty="Height" Duration="0:0:0.2" From="44" To="47">
+
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="Image.MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Width" Duration="0:0:0.2" From="47" To="44">
+
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetProperty="Height" Duration="0:0:0.2" From="47" To="44">
+
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Image.Triggers>
+        </Image>
+        <Image HorizontalAlignment="Left" Height="44" Margin="208,8,0,0" VerticalAlignment="Top" Width="44" Source="{DynamicResource MinusPlayListButton}" Opacity="0.2" MouseDown="Delete_Button_Click" RenderTransformOrigin="0.5,0.5">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="0.581"/>
+                    <TranslateTransform X="0.002" Y="-0.304"/>
+                </TransformGroup>
+            </Image.RenderTransform>
+            <Image.Triggers>
+                <EventTrigger RoutedEvent="Image.MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Width" Duration="0:0:0.2" From="44" To="47">
+
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetProperty="Height" Duration="0:0:0.2" From="44" To="47">
+
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="Image.MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Width" Duration="0:0:0.2" From="47" To="44">
+
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetProperty="Height" Duration="0:0:0.2" From="47" To="44">
+
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Image.Triggers>
+        </Image>
+        <ListView x:Name="playListView" Background="Black" Foreground="White" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="0,103,0,73">
+
+        </ListView>
+
+        <Grid Name="InfoAboutPlayList" HorizontalAlignment="Left" Height="34" Margin="0,404,0,0" VerticalAlignment="Top" Width="445" Background="#FF0F0F0F">
+            <Label Name="labelSumTimeOfPlayList" Content="00:00" HorizontalAlignment="Left" Margin="10,4,0,0" Foreground="Gray" VerticalAlignment="Top"/>
+            <Label Name="labelCountOfItemsPlayList" Content="0" HorizontalAlignment="Left" Margin="219,4,0,0" Foreground="Gray" VerticalAlignment="Top" RenderTransformOrigin="-0.312,0.423"/>
+            <Label x:Name="labelSizeOfItemsPlayList" Content="0" HorizontalAlignment="Left" Margin="363,4,0,0" Foreground="Gray" VerticalAlignment="Top" RenderTransformOrigin="-0.312,0.423" FlowDirection="RightToLeft" Width="72"/>
+        </Grid>
+        <StackPanel HorizontalAlignment="Left" Height="39" Margin="0,438,0,0" VerticalAlignment="Top" Width="445" Background="#FF202020" Orientation="Horizontal">
+            <TextBox x:Name="SearchTextBox" Text="   Search Here!"  HorizontalAlignment="Left" Height="36" TextWrapping="Wrap" VerticalAlignment="Top" Width="406" BorderBrush="#00000000" FontSize="20" FontStyle="Italic" Background="#FF202020" Foreground="#FF979797" GotFocus="SearchTextBox_GotFocus" LostFocus="SearchTextBox_LostFocus"/>
+            <Image HorizontalAlignment="Left" Height="36" VerticalAlignment="Top" Width="36" Source="{DynamicResource SearchButton}" MouseDown="SearchPlayItems_MouseDown">
+
+            </Image>
+
+        </StackPanel>
+        <Image HorizontalAlignment="Left" Height="44" Margin="271,8,0,0" VerticalAlignment="Top" Width="44" Opacity="0.2" Source="Icons/newPlayList.png" RenderTransformOrigin="0.5,0.5" MouseDown="NewPlayList_MouseDown">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="0.581"/>
+                    <TranslateTransform X="-0.002" Y="0.304"/>
+                </TransformGroup>
+            </Image.RenderTransform>
+            <Image.Triggers>
+                <EventTrigger RoutedEvent="Image.MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Width" Duration="0:0:0.2" From="44" To="47">
+
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetProperty="Height" Duration="0:0:0.2" From="44" To="47">
+
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="Image.MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Width" Duration="0:0:0.2" From="47" To="44">
+
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetProperty="Height" Duration="0:0:0.2" From="47" To="44">
+
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Image.Triggers>
+        </Image>
+        <Grid Name="PlayListsGrid" HorizontalAlignment="Left" Height="44" Margin="0,59,0,0" VerticalAlignment="Top" Width="445">
+            <Image HorizontalAlignment="Left" Height="32" VerticalAlignment="Top" Width="32" Margin="0,2,0,0">
+                <Image.OpacityMask>
+                    <ImageBrush ImageSource="{DynamicResource prevImgPlayListsNew}"/>
+                </Image.OpacityMask>
+            </Image>
+            <TextBlock Name="playListPrev" Text="" Foreground="White" FontSize="12" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="24" Width="99" Background="#FFBF3517" LineStackingStrategy="BlockLineHeight" TextOptions.TextHintingMode="Animated" TextAlignment="Center" LineHeight="20" MouseDown="playListPrev_MouseDown"/>
+            <TextBlock Name="playListCurrent" Text="" Foreground="White" FontSize="12" HorizontalAlignment="Left" Margin="173,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="24" Width="99" Background="#FFBF3517" LineStackingStrategy="BlockLineHeight" TextOptions.TextHintingMode="Animated" TextAlignment="Center" LineHeight="20"/>
+            <TextBlock Name="playListNext" Text="" Foreground="White" FontSize="12" HorizontalAlignment="Left" Margin="336,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="24" Width="99" Background="#FFBF3517" LineStackingStrategy="BlockLineHeight" TextOptions.TextHintingMode="Animated" TextAlignment="Center" LineHeight="20" MouseDown="playListNext_MouseDown"/>
+        </Grid>
+        <Image HorizontalAlignment="Left" Height="44" Margin="332,9,0,0" VerticalAlignment="Top" Width="44" Opacity="0.2" Source="Icons/cancelCircle.png" RenderTransformOrigin="0.5,0.5" MouseDown="DeletePlayList_MouseDown">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="0.581"/>
+                    <TranslateTransform X="-0.002" Y="0.304"/>
+                </TransformGroup>
+            </Image.RenderTransform>
+            <Image.Triggers>
+                <EventTrigger RoutedEvent="Image.MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Width" Duration="0:0:0.2" From="44" To="47">
+
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetProperty="Height" Duration="0:0:0.2" From="44" To="47">
+
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="Image.MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Width" Duration="0:0:0.2" From="47" To="44">
+
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetProperty="Height" Duration="0:0:0.2" From="47" To="44">
+
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Image.Triggers>
+        </Image>
+        <Image HorizontalAlignment="Left" Height="44" Margin="391,10,0,0" VerticalAlignment="Top" Width="44" Opacity="0.2" Source="Icons/rename.png" RenderTransformOrigin="0.5,0.5" MouseDown="RenamePlayList_MouseDown">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="0.581"/>
+                    <TranslateTransform X="-0.002" Y="0.304"/>
+                </TransformGroup>
+            </Image.RenderTransform>
+            <Image.Triggers>
+                <EventTrigger RoutedEvent="Image.MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Width" Duration="0:0:0.2" From="44" To="47">
+
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetProperty="Height" Duration="0:0:0.2" From="44" To="47">
+
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="Image.MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Width" Duration="0:0:0.2" From="47" To="44">
+
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetProperty="Height" Duration="0:0:0.2" From="47" To="44">
+
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Image.Triggers>
+        </Image>
+
+    </Grid>
+</Window>

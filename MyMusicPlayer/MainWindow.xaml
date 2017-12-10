@@ -1,0 +1,385 @@
+﻿<Window x:Class="MyMusicPlayer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:interactivity="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:mvvmLight="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Extras.WPF4"
+        Title="MainWindow" Height="165" Width="443" Background="Transparent" Name="mainWindow" ResizeMode="NoResize"  WindowStyle="None" Closing="mainWindow_Closing">
+    <Window.Resources>
+        <BitmapImage x:Key="CloseIcon" CreateOptions="IgnoreImageCache" CacheOption="OnLoad"  UriSource="Icons\cancel.png"/>
+        <BitmapImage x:Key="PauseButton" CreateOptions="IgnoreImageCache" CacheOption="OnLoad" UriSource="Icons\pause.png"/>
+        <BitmapImage x:Key="PrevButton" CreateOptions="IgnoreImageCache" CacheOption="OnLoad" UriSource="Icons\rew.png"/>
+        <BitmapImage x:Key="NextButton" CreateOptions="IgnoreImageCache" CacheOption="OnLoad" UriSource="Icons\ff.png"/>
+        <BitmapImage x:Key="PlayButton" CreateOptions="IgnoreImageCache" CacheOption="OnLoad" UriSource="Icons\play.png"/>
+        <BitmapImage x:Key="StopButton" CreateOptions="IgnoreImageCache" CacheOption="OnLoad" UriSource="Icons\stop.png"/>
+        <BitmapImage x:Key="HideButton" CreateOptions="IgnoreImageCache" CacheOption="OnLoad" UriSource="Icons\minus.png"/>
+        <BitmapImage x:Key="VolumeButton" CreateOptions="IgnoreImageCache" CacheOption="OnLoad" UriSource="Icons\volume.png"/>
+        <BitmapImage x:Key="RepeatButton" CreateOptions="IgnoreImageCache" CacheOption="OnLoad" UriSource="Icons\refresh.png"/>
+        <BitmapImage x:Key="MuteButton" CreateOptions="IgnoreImageCache" CacheOption="OnLoad" UriSource="Icons\mute.png"/>
+        <BitmapImage x:Key="NotRefreshButton" CreateOptions="IgnoreImageCache" CacheOption="OnLoad" UriSource="Icons\notrefresh.png"/>
+        <BitmapImage x:Key="RandomButton" CreateOptions="IgnoreImageCache" CacheOption="OnLoad" UriSource="Icons\random.png"/>
+        <BitmapImage x:Key="NotRandomButton" CreateOptions="IgnoreImageCache" CacheOption="OnLoad" UriSource="Icons\randomnot.png"/>
+    </Window.Resources>
+
+    <Grid Background="Black">
+        <Canvas x:Name="Canvas" Background="Transparent" Height="25"
+                VerticalAlignment="Top" Margin="0,49,0,0">
+            <TextBlock Name="TextBlockInfo" Margin="0,7,0,0" VerticalAlignment="Bottom" FontSize="12" FontWeight="Bold" Foreground="#555"
+                       Text="" Canvas.Right="0">
+                <TextBlock.Triggers>
+                    <EventTrigger RoutedEvent="TextBlock.Loaded">
+                        <EventTrigger.Actions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetProperty="(Canvas.Left)" From="500" To="-250" 
+                                                     Duration="0:0:15" RepeatBehavior="Forever"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger.Actions>
+                    </EventTrigger>
+                </TextBlock.Triggers>
+            </TextBlock>
+        </Canvas>
+        <Image HorizontalAlignment="Left" Height="32" Margin="400,0,0,0" VerticalAlignment="Top" Width="32" Source="{DynamicResource CloseIcon}" MouseDown="CloseImage_MouseDown">
+            <Image.OpacityMask>
+                <ImageBrush ImageSource="{DynamicResource CloseIcon}"/>
+            </Image.OpacityMask>
+          
+        </Image>
+        <Image Name="PlayOrPauseButton" HorizontalAlignment="Left" Height="40" Margin="176,97,0,0" VerticalAlignment="Top" Width="45" Source="{DynamicResource PlayButton}" MouseDown="Image_MouseDown_PauseOrPlay">
+            <Image.Triggers>
+                <EventTrigger RoutedEvent="Image.MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Width" Duration="0:0:0.2" From="40" To="43">
+
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetProperty="Height" Duration="0:0:0.2" From="40" To="43">
+
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="Image.MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Width" Duration="0:0:0.2" From="43" To="40">
+
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetProperty="Height" Duration="0:0:0.2" From="43" To="40">
+
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Image.Triggers>
+        </Image>
+        <Image x:Name="backImg" HorizontalAlignment="Left" Height="40" Margin="131,97,0,0" VerticalAlignment="Top" Width="40" Source="{DynamicResource PrevButton}" MouseDown="backImg_MouseDown">
+            <Image.OpacityMask>
+                <ImageBrush ImageSource="{DynamicResource PrevButton}"/>
+            </Image.OpacityMask>
+            <Image.Triggers>
+                <EventTrigger RoutedEvent="Image.MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Width" Duration="0:0:0.2" From="40" To="43">
+
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetProperty="Height" Duration="0:0:0.2" From="40" To="43">
+
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="Image.MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Width" Duration="0:0:0.2" From="43" To="40">
+
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetProperty="Height" Duration="0:0:0.2" From="43" To="40">
+
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Image.Triggers>
+        </Image>
+        <Image x:Name="nextImg" HorizontalAlignment="Left" Height="40" Margin="221,97,0,0" VerticalAlignment="Top" Width="40" Source="{DynamicResource NextButton}" MouseDown="nextImg_MouseDown">
+            <Image.OpacityMask>
+                <ImageBrush ImageSource="{DynamicResource NextButton}"/>
+            </Image.OpacityMask>
+            <Image.Triggers>
+                <EventTrigger RoutedEvent="Image.MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Width" Duration="0:0:0.2" From="40" To="43">
+
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetProperty="Height" Duration="0:0:0.2" From="40" To="43">
+
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="Image.MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Width" Duration="0:0:0.2" From="43" To="40">
+
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetProperty="Height" Duration="0:0:0.2" From="43" To="40">
+
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Image.Triggers>
+        </Image>
+        <Grid HorizontalAlignment="Left" Height="173" VerticalAlignment="Top" Width="126" Background="#FFBF3517">
+            <Label Content="Player" Name="LabelTitle" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="40" FontFamily="Calibri Light" Foreground="White" RenderTransformOrigin="0.5,0.5" Margin="0,-4,0,0"/>
+            
+            <Label Name="labelOptions" Content="options" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="14" FontFamily="Calibri Light" Foreground="White" Margin="0,47,0,0">
+                <Label.Triggers>
+                    <EventTrigger RoutedEvent="Label.MouseEnter">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="labelOptions" Storyboard.TargetProperty="FontSize" From="14" To="16" Duration="0:0:0.2">
+
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="Label.MouseLeave">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="labelOptions" Storyboard.TargetProperty="FontSize" From="16" To="14" Duration="0:0:0.2">
+
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Label.Triggers>
+            </Label>
+
+
+            <Label Name="labelUtilities" Content="utilities" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="14" FontFamily="Calibri Light" Foreground="White" Margin="0,74,0,0">
+                <Label.Triggers>
+                    <EventTrigger RoutedEvent="Label.MouseEnter">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="labelUtilities" Storyboard.TargetProperty="FontSize" From="14" To="16" Duration="0:0:0.2">
+
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="Label.MouseLeave">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="labelUtilities" Storyboard.TargetProperty="FontSize" From="16" To="14" Duration="0:0:0.2">
+
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Label.Triggers>
+            </Label>
+
+            <Label Name="labelEqualizer" Content="equalizer" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="14" FontFamily="Calibri Light" Foreground="White" Margin="0,101,0,0">
+                <Label.Triggers>
+                    <EventTrigger RoutedEvent="Label.MouseEnter">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="labelEqualizer" Storyboard.TargetProperty="FontSize" From="14" To="16" Duration="0:0:0.2">
+
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="Label.MouseLeave">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="labelEqualizer" Storyboard.TargetProperty="FontSize" From="16" To="14" Duration="0:0:0.2">
+
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Label.Triggers>
+            </Label>
+
+            <Label Name="labelPlaylist" Content="playlist" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="14" FontFamily="Calibri Light" Foreground="White" Margin="0,128,0,0" MouseDown="labelPlaylist_MouseDown">
+                <Label.Triggers>
+                    <EventTrigger RoutedEvent="Label.MouseEnter">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="labelPlaylist" Storyboard.TargetProperty="FontSize" From="14" To="16" Duration="0:0:0.2">
+
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="Label.MouseLeave">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="labelPlaylist" Storyboard.TargetProperty="FontSize" From="16" To="14" Duration="0:0:0.2">
+
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Label.Triggers>
+            </Label>
+        </Grid>
+        <Label x:Name="labelTime" Content="00:00" HorizontalAlignment="Left" Margin="133,6,0,0" VerticalAlignment="Top" Foreground="White" FontSize="20" FontFamily="Verdana"/>
+
+        <Image HorizontalAlignment="Left" Height="40" Margin="266,97,0,0" VerticalAlignment="Top" Width="40" Source="{DynamicResource StopButton}" MouseDown="Image_Stop_MouseDown">
+            <Image.OpacityMask>
+                <ImageBrush ImageSource="{DynamicResource StopButton}"/>
+            </Image.OpacityMask>
+            <Image.Triggers>
+                <EventTrigger RoutedEvent="Image.MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Width" Duration="0:0:0.2" From="40" To="43">
+
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetProperty="Height" Duration="0:0:0.2" From="40" To="43">
+
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="Image.MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Width" Duration="0:0:0.2" From="43" To="40">
+
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetProperty="Height" Duration="0:0:0.2" From="43" To="40">
+
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Image.Triggers>
+        </Image>
+        <Image HorizontalAlignment="Left" Height="32" Margin="368,0,0,0" VerticalAlignment="Top" Width="32" Source="{DynamicResource HideButton}" MouseDown="Image_MouseDown_Hide">
+            <Image.OpacityMask>
+                <ImageBrush ImageSource="{DynamicResource HideButton}"/>
+            </Image.OpacityMask>
+        </Image>
+
+        <Image x:Name="VolumeImg" HorizontalAlignment="Left" Height="23" Margin="323,97,0,0" VerticalAlignment="Top" Width="25" Source="{DynamicResource VolumeButton}" MouseDown="Image_MouseDown_Volume">
+            <Image.OpacityMask>
+                <ImageBrush ImageSource="{DynamicResource VolumeButton}"/>
+            </Image.OpacityMask>
+            <Image.Triggers>
+                <EventTrigger RoutedEvent="Image.MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Width" Duration="0:0:0.2" From="25" To="28">
+
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetProperty="Height" Duration="0:0:0.2" From="25" To="28">
+
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="Image.MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Width" Duration="0:0:0.2" From="28" To="25">
+
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetProperty="Height" Duration="0:0:0.2" From="28" To="25">
+
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Image.Triggers>
+        </Image>
+        <Image Name="RepeatImg" HorizontalAlignment="Left" Height="41" Margin="353,88,0,0" VerticalAlignment="Top" Width="41" Source="{DynamicResource RepeatButton}" MouseDown="RepeatImg_MouseDown">
+            <Image.OpacityMask>
+                <ImageBrush ImageSource="{DynamicResource RepeatButton}"/>
+            </Image.OpacityMask>
+            <Image.RenderTransform>
+                <RotateTransform x:Name="TransRotate"
+                           CenterX="20.5" CenterY="20.5" Angle="0" />
+            </Image.RenderTransform>
+            <Image.Triggers>
+                <EventTrigger RoutedEvent="Image.MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Width" Duration="0:0:0.2" From="40" To="43">
+
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetProperty="Height" Duration="0:0:0.2" From="40" To="43">
+
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="Image.MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Width" Duration="0:0:0.2" From="43" To="40">
+
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetProperty="Height" Duration="0:0:0.2" From="43" To="40">
+
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="Image.MouseDown">
+                    <EventTrigger.Actions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Angle"    
+                                             Storyboard.TargetName="TransRotate" 
+                                             By="360" 
+                                             Duration="0:0:1"  
+                                             AutoReverse="False" 
+                                              />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+            </Image.Triggers>
+        </Image>
+        <ProgressBar x:Name="progressBarVolume" HorizontalAlignment="Left" Height="3" VerticalAlignment="Top" Width="110" Margin="323,134,0,0" Foreground="#FFBF3517" OpacityMask="#FFBF3517" Value="100" MouseDown="progressBarVolume_MouseDown" Background="#FF2D2D2D" BorderBrush="#00000000" />
+        <ProgressBar x:Name="progressOfSong" HorizontalAlignment="Left" Height="10" VerticalAlignment="Top" Width="317" Margin="126,145,0,0" Foreground="#FFBF3517"  Background="#FF2D2D2D" BorderBrush="#00BF3517" MouseDown="progressOfSong_MouseDown" OpacityMask="#FFBF3517"/>
+        <Image Name="RandomImg" HorizontalAlignment="Left" Height="24" Margin="399,97,0,0" VerticalAlignment="Top" Width="24" Source="{DynamicResource RandomButton}" MouseDown="RandomImg_MouseDown">
+            <Image.Triggers>
+                <EventTrigger RoutedEvent="Image.MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Width" Duration="0:0:0.2" From="24" To="27">
+
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetProperty="Height" Duration="0:0:0.2" From="24" To="27">
+
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="Image.MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Width" Duration="0:0:0.2" From="27" To="24">
+
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetProperty="Height" Duration="0:0:0.2" From="27" To="24">
+
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Image.Triggers>
+        </Image>
+
+    </Grid>
+</Window>
